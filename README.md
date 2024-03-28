@@ -33,12 +33,8 @@ This README provides a comprehensive guide to setting up, deploying, and using P
 
 - Create a `.env` file in the `backend` directory and specify the following variables:
   ```
-  PORT=3000
-  MONGODB_URI=mongodb://localhost:27017/paideia
-  JWT_SECRET=your_jwt_secret
-  STRIPE_SECRET_KEY=your_stripe_secret_key
+
   ```
-- Replace `your_jwt_secret` and `your_stripe_secret_key` with your own secret keys.
 
 4. **Start the backend server:**
 
