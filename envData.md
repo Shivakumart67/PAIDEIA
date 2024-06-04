@@ -1,0 +1,8 @@
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_ZW5vcm1vdXMtbW9sZS0yMy5jbGVyay5hY2NvdW50cy5kZXYk
+CLERK_SECRET_KEY=sk_test_2ptVzJmovM1hwHLFOqBUFQsdIypR595v44ujCwO9zv
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+DATABASE_URL='mysql://root:password@localhost:3306/paidea'
