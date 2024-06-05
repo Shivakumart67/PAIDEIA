@@ -14,6 +14,7 @@ model Course{
   title String @db.Text
   description String? @db.Text
   imageUrl String?
+  price Int? @db.Int
   isPublished Boolean @default(false)
   categoryId String?
   createdAt DateTime @default(now())

@@ -6,3 +6,4 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
 DATABASE_URL='mysql://root:password@localhost:3306/paidea'
+DATABASE_URL='mysql://root:GtWsEtinnwjetjFenJrBFIUsEIAxDCLX@monorail.proxy.rlwy.net:50980/railway'
