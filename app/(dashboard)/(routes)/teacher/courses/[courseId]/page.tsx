@@ -5,6 +5,7 @@ import { LayoutDashboard } from "lucide-react";
 import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 import { TitleForm } from "./_components/title-form";
+import { DescriptionForm } from "./_components/description-form";
 
 const courseIdPage = async ({
     params
@@ -59,10 +60,9 @@ const courseIdPage = async ({
                            Customize your course
                            </h2>
                         </div>
-                           <TitleForm initialData={course} courseId={course.id} > 
+                           <TitleForm initialData={course} courseId={course.id} /> 
+                           <DescriptionForm initialData={course} courseId={course.id} /> 
 
-                           </TitleForm>
-                    </div>
             </div>
         </div>
     )

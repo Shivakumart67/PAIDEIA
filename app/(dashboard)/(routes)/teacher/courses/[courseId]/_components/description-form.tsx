@@ -18,20 +18,23 @@ import { Pencil } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
-interface TitleFormProps {
+interface DescriptionFormProps {
   initialData: {
-    title: string
+    description: string
   }
   courseId: string
 }
 
 const formSchema = z.object({
-  title: z.string().min(1, {
-    message: 'Title is required',
+  description: z.string().min(1, {
+    message: 'Description is required',
   }),
 })
 
-export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
+export const DescriptionForm = ({
+  initialData,
+  courseId,
+}: DescriptionFormProps) => {
   const [isEditing, setIsEditing] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,7 +50,7 @@ export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, value)
-      toast.success('Title updated Successfully')
+      toast.success('Description updated Successfully')
       toggleEdit()
       router.refresh()
     } catch (error) {
@@ -58,20 +61,20 @@ export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
   return (
     <div className='mt-6 border bg-slate-100 rounded-md p-4'>
       <div className='font-medium flex items-center justify-between'>
-        Course Title
+        Add description
         <Button variant={'ghost'} onClick={toggleEdit}>
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className='h-4 w-4 mr-2' />
-              Edit Title
+              Edit Description
             </>
           )}
         </Button>
       </div>
       {!isEditing ? (
-        <p className='text-sm mt-2'>{initialData.title}</p>
+        <p className='text-sm mt-2'>{initialData.description}</p>
       ) : (
         <Form {...form}>
           <form
@@ -80,7 +83,7 @@ export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
           >
             <FormField
               control={form.control}
-              name='title'
+              name='description'
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
