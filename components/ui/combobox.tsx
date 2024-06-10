@@ -24,8 +24,9 @@ interface ComboBoxProps {
   onChange: (value: string) => void
 }
 
-export const Combobox = ({ options, value, onChange }: ComboBoxProps) => {
+export const Combobox = ({ options = [], value, onChange }: ComboBoxProps) => {
   const [open, setOpen] = React.useState(false)
+  console.log('Options:', options) // Confirm options is an array
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -50,7 +51,6 @@ export const Combobox = ({ options, value, onChange }: ComboBoxProps) => {
             {options.map((option) => (
               <CommandItem
                 key={option.value}
-                value={option.value}
                 onSelect={() => {
                   onChange(option.value === value ? '' : option.value)
                   setOpen(false)

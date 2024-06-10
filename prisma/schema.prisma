@@ -13,13 +13,13 @@ model Course {
   title       String       @db.Text
   description String?      @db.Text
   imageUrl    String?      @db.Text
-  price       Float?
   isPublished Boolean      @default(false)
   categoryId  String?
-  category    Category?    @relation(fields: [categoryId], references: [id])
-  attachments Attachment[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  price       Float?
+  attachments Attachment[]
+  category    Category?    @relation(fields: [categoryId], references: [id])
 
   @@index([categoryId])
 }
@@ -29,16 +29,15 @@ model Attachment {
   name      String   @db.Text
   url       String   @db.Text
   courseId  String
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@index([courseId])
 }
 
 model Category {
-  id       String   @id @default(uuid())
-  name     String   @unique
-  courseId String
-  courses  Course[]
+  id      String   @id @default(uuid())
+  name    String   @unique
+  courses Course[]
 }

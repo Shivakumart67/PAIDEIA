@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import { TitleForm } from './_components/title-form'
 import { DescriptionForm } from './_components/description-form'
 import { ImageForm } from './_components/image-form'
+import { CategoryForm } from './_components/category-form'
 
 const courseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth()
@@ -21,11 +22,13 @@ const courseIdPage = async ({ params }: { params: { courseId: string } }) => {
     },
   })
 
-  const categories = await db.category.findUnique({
-    where: {
-      id: params.courseId,
+  const categories = await db.category.findMany({
+    orderBy: {
+      name: 'asc',
     },
   })
+
+  console.log(categories)
 
   if (!course) {
     toast.error('Invalid Course')
@@ -63,6 +66,14 @@ const courseIdPage = async ({ params }: { params: { courseId: string } }) => {
           <TitleForm initialData={course} courseId={course.id} />
           <DescriptionForm initialData={course} courseId={course.id} />
           <ImageForm initialData={course} courseId={course.id} />
+          <CategoryForm
+            initialData={course}
+            courseId={course.id}
+            options={ categories ? categories.map((data) => ({
+              value: data.id,
+              label: data.name,
+            })) : []}
+          />
         </div>
       </div>
     </div>
