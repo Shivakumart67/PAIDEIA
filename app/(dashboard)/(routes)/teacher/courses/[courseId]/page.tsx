@@ -1,7 +1,7 @@
 import { IconBadge } from '@/components/icon-badge'
 import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs'
-import { LayoutDashboard } from 'lucide-react'
+import { CircleDollarSign, LayoutDashboard, ListChecks } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { TitleForm } from './_components/title-form'
@@ -28,8 +28,6 @@ const courseIdPage = async ({ params }: { params: { courseId: string } }) => {
     },
   })
 
-  console.log(categories)
-
   if (!course) {
     toast.error('Invalid Course')
     redirect('/')
@@ -40,6 +38,7 @@ const courseIdPage = async ({ params }: { params: { courseId: string } }) => {
     course.description,
     course.imageUrl,
     course.categoryId,
+    course.price,
   ]
 
   const totalFileds = requiredFields.length
@@ -69,11 +68,30 @@ const courseIdPage = async ({ params }: { params: { courseId: string } }) => {
           <CategoryForm
             initialData={course}
             courseId={course.id}
-            options={ categories ? categories.map((data) => ({
-              value: data.id,
-              label: data.name,
-            })) : []}
+            options={
+              categories
+                ? categories.map((data) => ({
+                    value: data.id,
+                    label: data.name,
+                  }))
+                : []
+            }
           />
+        </div>
+        <div className='space-y-6'>
+          <div>
+            <div className='flex items-center gap-x-2'>
+              <IconBadge icon={ListChecks} />
+              <h2 className='text-xl'>Course Chapters</h2>
+            </div>
+            <div>TODO: Chapters</div>
+          </div>
+          <div>
+            <div className='flex items-center gap-x-2'>
+              <IconBadge icon={CircleDollarSign} />
+              <h2 className='text-xl'>Sell your course</h2>
+            </div>
+          </div>
         </div>
       </div>
     </div>
