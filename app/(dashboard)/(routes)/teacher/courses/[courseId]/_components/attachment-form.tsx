@@ -11,7 +11,7 @@ import { Course } from '@prisma/client'
 import Image from 'next/image'
 import { FileUpload } from '@/components/file-upload'
 
-interface ImageFormProps {
+interface AttachmentFormProps {
   initialData: Course
   courseId: string
 }
@@ -22,7 +22,10 @@ const formSchema = z.object({
   }),
 })
 
-export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
+export const AttachmentForm = ({
+  initialData,
+  courseId,
+}: AttachmentFormProps) => {
   const [isEditing, setIsEditing] = useState(false)
   const router = useRouter()
   const toggleEdit = () => {
@@ -79,18 +82,18 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
           </div>
         )
       ) : (
-        <div >
+        <div>
           <FileUpload
-          endpoint='courseImage'
-          onChange={(url)=>{
-            if(url){
-              onSubmit({imageUrl: url})
-            }
-          }}
+            endpoint='courseImage'
+            onChange={(url) => {
+              if (url) {
+                onSubmit({ imageUrl: url })
+              }
+            }}
           />
-        <div className='text-xs text-muted-foreground mt-4'>
+          <div className='text-xs text-muted-foreground mt-4'>
             16:9 Aspect ratio recomended
-        </div>
+          </div>
         </div>
       )}
     </div>
