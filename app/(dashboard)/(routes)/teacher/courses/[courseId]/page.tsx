@@ -12,9 +12,9 @@ import toast from 'react-hot-toast'
 import { TitleForm } from './_components/title-form'
 import { DescriptionForm } from './_components/description-form'
 import { ImageForm } from './_components/image-form'
-import { AttachmentForm } from './_components/'
 import { CategoryForm } from './_components/category-form'
 import { PriceForm } from './_components/price-form'
+import { AttachmentForm } from './_components/attachment-form'
 
 const courseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth()
@@ -27,6 +27,13 @@ const courseIdPage = async ({ params }: { params: { courseId: string } }) => {
     where: {
       id: params.courseId,
     },
+    include:{
+      attachments:{
+        orderBy: {
+          createdAt: 'asc'
+        }
+      }
+    }
   })
 
   const categories = await db.category.findMany({
