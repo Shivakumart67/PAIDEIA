@@ -20,7 +20,7 @@ model Course {
   price       Float?
   attachments Attachment[]
   category    Category?    @relation(fields: [categoryId], references: [id])
-  Chapters    Chapter[]
+  chapters    Chapter[]
   Purchase    Purchase[]
 
   @@index([categoryId])
