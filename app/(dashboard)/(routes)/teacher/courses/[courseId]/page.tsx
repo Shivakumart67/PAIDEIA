@@ -27,20 +27,20 @@ const courseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const course = await db.course.findUnique({
     where: {
       id: params.courseId,
-      userId: userId
+      userId: userId,
     },
-    include:{
-      chapters:{
-        orderBy:{
-          position: 'asc'
-        }
-      },
-      attachments:{
+    include: {
+      chapters: {
         orderBy: {
-          createdAt: 'asc'
-        }
-      }
-    }
+          position: 'asc',
+        },
+      },
+      attachments: {
+        orderBy: {
+          createdAt: 'asc',
+        },
+      },
+    },
   })
 
   const categories = await db.category.findMany({
@@ -60,7 +60,7 @@ const courseIdPage = async ({ params }: { params: { courseId: string } }) => {
     course.imageUrl,
     course.categoryId,
     course.price,
-    course.chapters.some(chapter => chapter.isPublished)
+    course.chapters.some((chapter) => chapter.isPublished),
   ]
 
   const totalFileds = requiredFields.length

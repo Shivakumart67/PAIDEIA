@@ -2,13 +2,13 @@ import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
 
-export async function POST(
+export async function PUT(
   req: Request,
   { params }: { params: { courseId: string } }
 ) {
   try {
     const { userId } = auth()
-    const { title } = await req.json()
+    const { list } = await req.json()
 
     if (!userId) {
       return new NextResponse('UnAuthorized', { status: 401 })
@@ -25,28 +25,20 @@ export async function POST(
       return new NextResponse('UnAuthorized', { status: 401 })
     }
 
-    const lastChapter = await db.chapter.findFirst({
-      where: {
-        courseId: params.courseId,
-      },
-      orderBy: {
-        position: 'asc',
-      },
-    })
+    for (let item of list) {
+      await db.chapter.update({
+        where: {
+          id: item.id,
+        },  
+        data: {
+          position: item.position,
+        },
+      })
+    }
 
-    const newPosition = lastChapter ? lastChapter.position + 1 : 1
-
-    const chapter = await db.chapter.create({
-      data: {
-        title: title,
-        courseId: params.courseId,
-        position: newPosition,
-      },
-    })
-
-    return NextResponse.json(chapter)
+    return NextResponse.json('Success', { status: 200})
   } catch (error) {
-    console.log('[CHAPTER_CREATE]', error)
+    console.log('[COURSEID]', error)
     return new NextResponse('Internal Error', { status: 500 })
   }
 }

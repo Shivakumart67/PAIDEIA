@@ -30,6 +30,10 @@ export const ChaptersList = ({
     setIsMounted(true) // this is used for reduce the hydration error because of drag and drop component
   }, [])
 
+  useEffect(() => {
+    setChapters(items)
+  }, [items])
+
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return
@@ -52,10 +56,6 @@ export const ChaptersList = ({
 
     onReorder(bulkUpdateData)
   }
-
-  useEffect(() => {
-    setChapters(items)
-  }, [items])
 
   if (!isMounted) {
     return null

@@ -2,13 +2,13 @@ import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
 
-export async function POST(
+export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string; chapterId: string } }
 ) {
   try {
     const { userId } = auth()
-    const { title } = await req.json()
+    const {isPublished, ...values} = await req.json()
 
     if (!userId) {
       return new NextResponse('UnAuthorized', { status: 401 })
@@ -25,28 +25,21 @@ export async function POST(
       return new NextResponse('UnAuthorized', { status: 401 })
     }
 
-    const lastChapter = await db.chapter.findFirst({
+    const chapter = await db.chapter.update({
       where: {
+        id: params.chapterId,
         courseId: params.courseId,
       },
-      orderBy: {
-        position: 'asc',
-      },
-    })
-
-    const newPosition = lastChapter ? lastChapter.position + 1 : 1
-
-    const chapter = await db.chapter.create({
       data: {
-        title: title,
-        courseId: params.courseId,
-        position: newPosition,
+        ...values,
       },
-    })
+    });
+
+    // Handle video upload
 
     return NextResponse.json(chapter)
   } catch (error) {
-    console.log('[CHAPTER_CREATE]', error)
+    console.log('[CHAPTER TITLE EDIT]', error)
     return new NextResponse('Internal Error', { status: 500 })
   }
 }
