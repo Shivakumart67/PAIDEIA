@@ -1,5 +1,6 @@
 'use client'
 
+import { useConfettiStore } from '@/app/hooks/use-confetti'
 import { ConfirmModal } from '@/components/modals/confirm-modal'
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
@@ -8,28 +9,23 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 
-interface ChapterActionProps {
+interface ActionProps {
   disabled: boolean
   courseId: string
-  chapterId: string
   isPublished: boolean
 }
 
-export const ChapterActions = ({
-  disabled,
-  courseId,
-  chapterId,
-  isPublished,
-}: ChapterActionProps) => {
+export const Actions = ({ disabled, courseId, isPublished }: ActionProps) => {
   const [isLoading, setIsLoading] = useState(false)
+  const confetti = useConfettiStore()
   const router = useRouter()
   const onDelete = async () => {
     try {
       setIsLoading(true)
-      await axios.delete(`/api/courses/${courseId}/chapters/${chapterId}`)
-      toast.success('Chapter Deleted')
+      await axios.delete(`/api/courses/${courseId}`)
+      toast.success('Course Deleted')
       router.refresh()
-      router.push(`/teacher/courses/${courseId}`)
+      router.push(`/teacher/courses`)
     } catch (error) {
       toast.error('Something wents wrong')
     } finally {
@@ -41,16 +37,12 @@ export const ChapterActions = ({
     try {
       setIsLoading(true)
       if (isPublished) {
-        await axios.patch(
-          `/api/courses/${courseId}/chapters/${chapterId}/unpublish`,
-        )
-        toast.success('Chapter UnPublished')
-        // router.push(`/teacher/courses/${courseId}`)
+        await axios.patch(`/api/courses/${courseId}/unpublish`)
+        toast.success('Course UnPublished')
       } else {
-        await axios.patch(
-          `/api/courses/${courseId}/chapters/${chapterId}/publish`,
-        )
-        toast.success('Chapter Published')
+        await axios.patch(`/api/courses/${courseId}/publish`)
+        toast.success('Course Published')
+        confetti.onOpen()
       }
       router.refresh()
     } catch (error) {
